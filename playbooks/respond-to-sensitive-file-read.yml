@@ -12,8 +12,8 @@
 
     - name: Capture pod details for investigation
       set_fact:
-        pod_name: "{{ ansible_eda.event.payload['k8s.pod.name'] | default('N/A') }}"
-        ns_name: "{{ ansible_eda.event.payload['k8s.ns.name'] | default('N/A') }}"
+        pod_name: "{{ ansible_eda.event.payload.output_fields['k8s.pod.name'] | default('N/A') }}"
+        ns_name: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('N/A') }}"
 
     - name: Display captured details
       debug:
