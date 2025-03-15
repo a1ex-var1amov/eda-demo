@@ -65,8 +65,8 @@
             namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
           spec:
             endpointSelector: {}
-            ingress: {}
-            egress: {}
+            ingress: []
+            egress: []
         state: present
 
     - name: Reset Network Connections for Affected Pod
