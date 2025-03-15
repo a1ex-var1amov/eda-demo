@@ -1,0 +1,15 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "allow-dns-port-53"
+  namespace: "confluence"
+spec:
+  endpointSelector: {}
+  egress:
+  - toPorts:
+    - ports:
+      - port: "53"
+        protocol: "UDP"
+      - port: "53"
+        protocol: "TCP"
+  ingress: []

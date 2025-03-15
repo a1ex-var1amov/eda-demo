@@ -1,0 +1,15 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  creationTimestamp: "2025-03-15T19:00:29Z"
+  generation: 1
+  name: isolate-confluence-server-7b88979f67-9t5ph
+  namespace: confluence
+  resourceVersion: "1307643"
+  uid: acbeb874-671a-4c1a-86b7-3ef199cab5c2
+spec:
+  endpointSelector: {}  # Matches all pods in the namespace
+  ingressDeny:          # Deny ALL incoming traffic
+    - {}
+  egressDeny:           # Deny ALL outgoing traffic
+    - {}
