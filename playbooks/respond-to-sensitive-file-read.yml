@@ -3,6 +3,10 @@
   hosts: localhost
   gather_facts: false
   tasks:
+    - name: Show All Available Variables (For Debugging)
+      ansible.builtin.debug:
+        var: vars
+
     - name: Display full event data (for debugging)
       ansible.builtin.debug:
         var: eda_event
