@@ -5,6 +5,24 @@
       debug:
         var: vars
 
+    - name: Display Environment Variables (to check KUBECONFIG)
+      ansible.builtin.command: env
+      register: env_output
+      changed_when: false
+
+    - name: Show Environment Variables
+      debug:
+        var: env_output.stdout_lines
+
+    - name: Display Current Kubernetes Context
+      ansible.builtin.command: kubectl config view --minify
+      register: k8s_config
+      changed_when: false
+
+    - name: Show Kubernetes Configuration
+      debug:
+        var: k8s_config.stdout_lines
+
     - name: Notify Security Team
       debug:
         msg: "ALERT: Sensitive file read detected on {{ ansible_eda.event.payload.hostname }}. Investigate immediately."

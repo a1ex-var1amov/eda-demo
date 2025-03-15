@@ -1,0 +1,18 @@
+FROM quay.io/ansible/awx-ee:latest
+
+# Switch to root to bypass permission issues
+USER root
+
+# Install Ansible Galaxy collections for Kubernetes
+RUN ansible-galaxy collection install \
+    kubernetes.core \
+    community.kubernetes \
+    ansible.posix \
+    community.general \
+    containers.podman \
+    amazon.aws \
+    google.cloud \
+    --collections-path /usr/share/ansible/collections
+
+# Switch back to non-root user for security best practices
+USER 1000
