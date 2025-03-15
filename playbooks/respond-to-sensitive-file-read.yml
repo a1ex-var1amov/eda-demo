@@ -1,0 +1,31 @@
+---
+- name: Respond to Sensitive File Read
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Notify Security Team
+      ansible.builtin.debug:
+        msg: "ALERT: Sensitive file read detected on {{ inventory_hostname }}. Investigate immediately."
+
+    - name: Capture pod details for investigation
+      command: kubectl describe pod {{ ansible_eda_event.payload['k8s.pod.name'] }} -n {{ ansible_eda_event.payload['k8s.ns.name'] }}
+      register: pod_info
+
+    - name: Display pod details
+      ansible.builtin.debug:
+        var: pod_info.stdout
+
+    - name: Isolate the suspicious pod (optional)
+      command: kubectl cordon {{ ansible_eda_event.payload['k8s.node.name'] }}
+
+    - name: Send notification via webhook (optional)
+      uri:
+        url: "http://security-alerts.example.com/notify"
+        method: POST
+        body_format: json
+        body:
+          alert_type: "Sensitive File Read"
+          node: "{{ ansible_eda_event.payload['k8s.node.name'] }}"
+          pod: "{{ ansible_eda_event.payload['k8s.pod.name'] }}"
+          namespace: "{{ ansible_eda_event.payload['k8s.ns.name'] }}"
+
