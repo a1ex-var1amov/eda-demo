@@ -75,14 +75,11 @@
 
     - name: Reset Network Connections for Affected Pod
       community.kubernetes.k8s_exec:
-        api_version: v1
-        kind: Pod
         namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
         pod: "{{ pod_details.resources[0].metadata.name }}"
         container: "{{ pod_details.resources[0].spec.containers[0].name }}"
         command: "/bin/sh -c 'kill -HUP 1'"
       ignore_errors: true
-
 
     - name: Alert with pod details
       debug:
