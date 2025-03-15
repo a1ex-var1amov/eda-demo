@@ -11,10 +11,10 @@
     - name: Detect Sensitive File Read
       condition: event.payload.rule == "Read sensitive file untrusted"
       action:
-        run_job_template:
-          name: "Respond to Sensitive File Read"
-          organization: "Default"
-          extra_vars:
-            eda_event:
-              payload: "{{ event.payload }}"
-              meta: "{{ event.meta }}"
+        - debug:  # 🔍 Logs the incoming event in EDA logs for better visibility
+            msg: "Received event payload: {{ event }}"
+        - run_job_template:
+            name: "Respond to Sensitive File Read"
+            organization: "Default"
+            extra_vars:
+              eda_event: "{{ event }}"
