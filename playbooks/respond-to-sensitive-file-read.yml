@@ -57,17 +57,22 @@
       community.kubernetes.k8s:
         api_version: "cilium.io/v2"
         kind: CiliumNetworkPolicy
-        metadata:
-          name: "isolate-{{ pod_details.resources[0].metadata.name }}"
-          namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
-        spec:
-          endpointSelector:
-            matchLabels:
-              "k8s-app": "{{ pod_details.resources[0].metadata.labels['k8s-app'] | default('suspicious-app') }}"
-          ingress:
-            - {}
-          egress:
-            - {}
+        resource_definition: |
+          apiVersion: "cilium.io/v2"
+          kind: CiliumNetworkPolicy
+          metadata:
+            name: "isolate-{{ pod_details.resources[0].metadata.name }}"
+            namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
+          spec:
+            endpointSelector:
+              matchLabels:
+                "k8s-app": "{{ pod_details.resources[0].metadata.labels['k8s-app'] | default('suspicious-app') }}"
+            ingress:
+              - {}
+            egress:
+              - {}
+        state: present
+
 
     - name: Reset Network Connections for Affected Pod
       community.kubernetes.k8s_exec:
