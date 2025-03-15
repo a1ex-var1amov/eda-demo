@@ -1,30 +1,35 @@
 - name: Respond to Sensitive File Read
   hosts: localhost
   tasks:
-
-    - name: Display full event data (for debugging)
+    - name: Show All Available Variables (For Debugging)
       debug:
-        var: ansible_eda
+        var: vars
 
     - name: Notify Security Team
       debug:
-        msg: "ALERT: Sensitive file read detected on {{ ansible_eda.event.payload['hostname'] }}. Investigate immediately."
+        msg: "ALERT: Sensitive file read detected on {{ ansible_eda.event.payload.hostname }}. Investigate immediately."
 
     - name: Capture pod details for investigation
-      set_fact:
-        pod_name: "{{ ansible_eda.event.payload.output_fields['k8s.pod.name'] | default('N/A') }}"
-        ns_name: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('N/A') }}"
+      community.kubernetes.k8s_info:
+        api_version: v1
+        kind: Pod
+        name: "{{ ansible_eda.event.payload.output_fields['k8s.pod.name'] | default('suspicious-pod') }}"
+        namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
+      register: pod_details
 
-    - name: Display captured details
+    - name: Display pod details
       debug:
-        msg: "Pod: {{ pod_name }}, Namespace: {{ ns_name }}"
+        var: pod_details
 
-    - name: Perform Investigation
-      command: >
-        kubectl get pod {{ pod_name }} -n {{ ns_name }} -o json
-      when: pod_name != 'N/A' and ns_name != 'N/A'
+    - name: Log details for further analysis
+      debug:
+        msg: |
+          POD DETAILS:
+          - Pod Name: {{ pod_details.resources[0].metadata.name }}
+          - Namespace: {{ pod_details.resources[0].metadata.namespace }}
+          - Node: {{ pod_details.resources[0].spec.nodeName }}
+          - Containers: {{ pod_details.resources[0].spec.containers | map(attribute='name') | list | join(', ') }}
 
-    - name: Alert in case of missing details
-      fail:
-        msg: "Failed to retrieve pod details. Ensure Falco data includes pod and namespace information."
-      when: pod_name == 'N/A' or ns_name == 'N/A'
+    - name: Alert with pod details
+      debug:
+        msg: "Pod {{ ansible_eda.event.payload.output_fields['k8s.pod.name'] }} in namespace {{ ansible_eda.event.payload.output_fields['k8s.ns.name'] }} is suspected of unauthorized access."
