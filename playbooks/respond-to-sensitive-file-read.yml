@@ -3,16 +3,16 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Display full event data (for debugging)
+    - name: Display all available variables (for debugging)
       ansible.builtin.debug:
-        var: ansible_eda_event  # This will help confirm if the variable exists
+        var: vars
 
     - name: Notify Security Team
       ansible.builtin.debug:
         msg: "ALERT: Sensitive file read detected on {{ inventory_hostname }}. Investigate immediately."
 
     - name: Capture pod details for investigation
-      command: kubectl describe pod {{ ansible_eda_event.payload['k8s.pod.name'] }} -n {{ ansible_eda_event.payload['k8s.ns.name'] }}
+      command: kubectl describe pod {{ event.payload['k8s.pod.name'] }} -n {{ event.payload['k8s.ns.name'] }}
       register: pod_info
 
     - name: Display pod details
@@ -20,7 +20,7 @@
         var: pod_info.stdout
 
     - name: Isolate the suspicious pod (optional)
-      command: kubectl cordon {{ ansible_eda_event.payload['k8s.node.name'] | default('unknown node') }}
+      command: kubectl cordon {{ event.payload['k8s.node.name'] | default('unknown node') }}
 
     - name: Send notification via webhook (optional)
       uri:
@@ -29,7 +29,7 @@
         body_format: json
         body:
           alert_type: "Sensitive File Read"
-          node: "{{ ansible_eda_event.payload['k8s.node.name'] | default('unknown node') }}"
-          pod: "{{ ansible_eda_event.payload['k8s.pod.name'] }}"
-          namespace: "{{ ansible_eda_event.payload['k8s.ns.name'] }}"
+          node: "{{ event.payload['k8s.node.name'] | default('unknown node') }}"
+          pod: "{{ event.payload['k8s.pod.name'] }}"
+          namespace: "{{ event.payload['k8s.ns.name'] }}"
 
