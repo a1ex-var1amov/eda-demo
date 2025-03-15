@@ -64,13 +64,9 @@
             name: "isolate-{{ pod_details.resources[0].metadata.name }}"
             namespace: "{{ ansible_eda.event.payload.output_fields['k8s.ns.name'] | default('eda') }}"
           spec:
-            endpointSelector:
-              matchLabels:
-                "k8s-app": "{{ pod_details.resources[0].metadata.labels['k8s-app'] | default('suspicious-app') }}"
-            ingress:
-              - {}
-            egress:
-              - {}
+            endpointSelector: {}
+            ingress: {}
+            egress: {}
         state: present
 
     - name: Reset Network Connections for Affected Pod
