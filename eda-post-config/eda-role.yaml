@@ -4,6 +4,9 @@ metadata:
   name: eda-clusterrole
 rules:
   - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["get", "create"]
+  - apiGroups: [""]
     resources:
       - nodes
       - pods
