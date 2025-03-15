@@ -15,7 +15,7 @@
           name: "Respond to Falco Alert"
           organization: "Default"
           extra_vars:
-            eda_event: "{{ event | to_json }}"
+            eda_event: "{{ event }}"
 
     - name: Detect Sensitive File Read
       condition: event.payload.rule == "Read sensitive file untrusted"
@@ -24,4 +24,5 @@
           name: "Respond to Sensitive File Read"
           organization: "Default"
           extra_vars:
-            eda_event: "{{ event | to_json }}"
+            eda_event: "{{ event }}"
+
