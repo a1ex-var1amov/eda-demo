@@ -10,7 +10,7 @@
   rules:
     - name: Detect Sensitive File Read
       condition: event.payload.rule == "Read sensitive file untrusted"
-      action:
+      actions:
         - debug:
             msg: "Received event payload: {{ event }}"
         - run_job_template:
