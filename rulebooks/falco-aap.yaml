@@ -1,0 +1,20 @@
+---
+- name: Falco Webhook Rule
+  hosts: localhost
+  sources:
+    - name: falco-activation
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+        endpoint: /falco-activation
+  rules:
+    - name: Detect Sensitive File Read
+      condition: event.payload.rule == "Read sensitive file untrusted"
+      actions:
+        - debug:
+            msg: "Received event payload: {{ event }}"
+        - run_job_template:
+            name: "Respond to Sensitive File Read"
+            organization: "Default"
+            extra_vars:
+              eda_event: "{{ event }}"
