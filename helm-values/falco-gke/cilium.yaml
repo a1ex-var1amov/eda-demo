@@ -1,0 +1,17 @@
+USER-SUPPLIED VALUES:
+cluster:
+  name: gke-alexvee-us-east1-b-gke
+cni:
+  binPath: /home/kubernetes/bin
+gke:
+  disableDefaultSnat: true
+  enabled: true
+ipam:
+  mode: kubernetes
+ipv4NativeRoutingCIDR: 10.60.0.0/14
+nodeinit:
+  enabled: true
+  reconfigureKubelet: true
+  removeCbrBridge: true
+operator:
+  replicas: 1

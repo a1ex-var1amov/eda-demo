@@ -1,0 +1,31 @@
+apiVersion: v1
+data:
+  EDA_ALLOWED_HOSTS: '[''*'']'
+  EDA_CONTROLLER_SSL_VERIFY: "no"
+  EDA_CONTROLLER_URL: http://awx-service.awx.svc.cluster.local
+  EDA_CSRF_TRUSTED_ORIGINS: http://eda-demo-api:8000
+  EDA_DEPLOYMENT_TYPE: k8s
+  EDA_MAX_RUNNING_ACTIVATIONS: "12"
+  EDA_STATIC_URL: /api/eda/static/
+  EDA_WEBSOCKET_BASE_URL: ws://eda-demo-daphne:8001
+  EDA_WEBSOCKET_SSL_VERIFY: "False"
+  EDA_WEBSOCKET_TOKEN_BASE_URL: http://eda-demo-api:8000
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","data":{"EDA_ALLOWED_HOSTS":"[''*'']","EDA_CONTROLLER_SSL_VERIFY":"no","EDA_CONTROLLER_URL":"http://awx-service.awx.svc.cluster.local","EDA_CSRF_TRUSTED_ORIGINS":"http://eda-demo-api:8000","EDA_DEPLOYMENT_TYPE":"k8s","EDA_MAX_RUNNING_ACTIVATIONS":"12","EDA_STATIC_URL":"/api/eda/static/","EDA_WEBSOCKET_BASE_URL":"ws://eda-demo-daphne:8001","EDA_WEBSOCKET_SSL_VERIFY":"False","EDA_WEBSOCKET_TOKEN_BASE_URL":"http://eda-demo-api:8000"},"kind":"ConfigMap","metadata":{"labels":{"app.kubernetes.io/managed-by":"eda-operator","app.kubernetes.io/name":"eda-demo","app.kubernetes.io/operator-version":"","app.kubernetes.io/part-of":"eda-demo"},"name":"eda-demo-eda-env-properties","namespace":"eda"}}'
+  creationTimestamp: "2025-03-14T23:18:31Z"
+  labels:
+    app.kubernetes.io/managed-by: eda-operator
+    app.kubernetes.io/name: eda-demo
+    app.kubernetes.io/operator-version: ""
+    app.kubernetes.io/part-of: eda-demo
+  name: eda-demo-eda-env-properties
+  namespace: eda
+  ownerReferences:
+  - apiVersion: eda.ansible.com/v1alpha1
+    kind: EDA
+    name: eda-demo
+    uid: 4045fc6e-a4d5-4fda-8fd5-ebb49c8995e1
+  resourceVersion: "1072861"
+  uid: 91cf7a59-2ac4-483c-8dac-427bdc1bc0e8

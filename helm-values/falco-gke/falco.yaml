@@ -1,0 +1,10 @@
+USER-SUPPLIED VALUES:
+driver:
+  kind: ebpf
+falcosidekick:
+  config:
+    webhook:
+      address: http://falco-activation.eda.svc.cluster.local:5000/falco
+  enabled: true
+  webui:
+    enabled: true

@@ -1,0 +1,116 @@
+apiVersion: v1
+data:
+  redirect-page.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="15; url=">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Redirecting to Ansible Automation Platform</title>
+
+        <!-- Favicon links -->
+        <link rel="icon" type="image/x-icon" href="/api/eda/static/media/favicon.ico">
+
+        <!-- Link to DRF's CSS -->
+        <link rel="stylesheet" type="text/css" href="/api/eda/static/rest_framework/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/api/eda/static/rest_framework/css/bootstrap-theme.min.css">
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding-top: 0px;
+                /* background-color: rgb(34, 34, 34); */
+            }
+            .banner {
+                background-color: #151414;
+                color: rgb(255, 255, 255);
+                padding: 20px;
+                margin-bottom: 20px;
+                min-height: 70px; /* Ensure the banner is tall enough to fit the logo */
+            }
+            .logo {
+                width: 150px;
+                margin-bottom: 20px;
+                float: left;
+            }
+            a {
+                color: #007BFF;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .doc-note {
+                font-size: 0.7em; /* Makes the text smaller */
+                color: #555; /* Optional: Change text color to a lighter shade */
+                background-color: #f9f9f9; /* Optional: Light background color */
+                padding: 10px; /* Optional: Add some padding */
+                margin: 10px 0; /* Optional: Add some margin */
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Banner Section with Brand Logo -->
+        <div class="banner">
+            <img class="logo" src="/api/eda/static/media/aap-logo.svg" alt="Brand Logo">
+        </div>
+
+        <h2>Redirecting to Ansible Automation Platform...</h2>
+        <p>If you are not redirected automatically, <a href="">click here</a> to go to AAP.</p>
+        <p class="doc-note">
+            The API endpoints for this platform service will temporarily remain available at the URL for this service.
+            Please use the Ansible Automation Platform API endpoints corresponding to this component in the future.
+            These can be found at <a href="/api/eda/" target="_blank">/api/eda</a>.
+        </p>
+
+        <!-- Include any additional scripts if needed -->
+        <script src="/api/eda/static/rest_framework/js/jquery-3.5.1.min.js"></script>
+        <script src="/api/eda/static/rest_framework/js/bootstrap.min.js"></script>
+    </body>
+    </html>
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","data":{"redirect-page.html":"<!DOCTYPE
+      html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta http-equiv=\"refresh\"
+      content=\"15; url=\">\n    <meta name=\"viewport\" content=\"width=device-width,
+      initial-scale=1.0\">\n    <title>Redirecting to Ansible Automation Platform</title>\n\n    <!--
+      Favicon links -->\n    <link rel=\"icon\" type=\"image/x-icon\" href=\"/api/eda/static/media/favicon.ico\">\n\n    <!--
+      Link to DRF''s CSS -->\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"/api/eda/static/rest_framework/css/bootstrap.min.css\">\n    <link
+      rel=\"stylesheet\" type=\"text/css\" href=\"/api/eda/static/rest_framework/css/bootstrap-theme.min.css\">\n\n    <style>\n        body
+      {\n            font-family: Arial, sans-serif;\n            text-align: center;\n            padding-top:
+      0px;\n            /* background-color: rgb(34, 34, 34); */\n        }\n        .banner
+      {\n            background-color: #151414;\n            color: rgb(255, 255,
+      255);\n            padding: 20px;\n            margin-bottom: 20px;\n            min-height:
+      70px; /* Ensure the banner is tall enough to fit the logo */\n        }\n        .logo
+      {\n            width: 150px;\n            margin-bottom: 20px;\n            float:
+      left;\n        }\n        a {\n            color: #007BFF;\n            text-decoration:
+      none;\n        }\n        a:hover {\n            text-decoration: underline;\n        }\n        .doc-note
+      {\n            font-size: 0.7em; /* Makes the text smaller */\n            color:
+      #555; /* Optional: Change text color to a lighter shade */\n            background-color:
+      #f9f9f9; /* Optional: Light background color */\n            padding: 10px;
+      /* Optional: Add some padding */\n            margin: 10px 0; /* Optional: Add
+      some margin */\n            float: left;\n        }\n    </style>\n</head>\n<body>\n    <!--
+      Banner Section with Brand Logo -->\n    <div class=\"banner\">\n        <img
+      class=\"logo\" src=\"/api/eda/static/media/aap-logo.svg\" alt=\"Brand Logo\">\n    </div>\n\n    <h2>Redirecting
+      to Ansible Automation Platform...</h2>\n    <p>If you are not redirected automatically,
+      <a href=\"\">click here</a> to go to AAP.</p>\n    <p class=\"doc-note\">\n        The
+      API endpoints for this platform service will temporarily remain available at
+      the URL for this service.\n        Please use the Ansible Automation Platform
+      API endpoints corresponding to this component in the future.\n        These
+      can be found at <a href=\"/api/eda/\" target=\"_blank\">/api/eda</a>.\n    </p>\n\n    <!--
+      Include any additional scripts if needed -->\n    <script src=\"/api/eda/static/rest_framework/js/jquery-3.5.1.min.js\"></script>\n    <script
+      src=\"/api/eda/static/rest_framework/js/bootstrap.min.js\"></script>\n</body>\n</html>\n"},"kind":"ConfigMap","metadata":{"name":"eda-demo-redirect-page","namespace":"eda"}}'
+  creationTimestamp: "2025-03-14T23:18:32Z"
+  name: eda-demo-redirect-page
+  namespace: eda
+  ownerReferences:
+  - apiVersion: eda.ansible.com/v1alpha1
+    kind: EDA
+    name: eda-demo
+    uid: 4045fc6e-a4d5-4fda-8fd5-ebb49c8995e1
+  resourceVersion: "383449"
+  uid: e4dc1c80-a1d5-4bea-bde5-f0704abd9722

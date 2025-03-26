@@ -1,0 +1,73 @@
+apiVersion: v1
+data:
+  nginx_api_default_conf_template: |
+    events {
+        worker_connections 1024;
+    }
+    http {
+        map $http_x_forwarded_proto $remote_scheme {
+            default $http_x_forwarded_proto;
+            ''      $scheme;
+        }
+
+        include mime.types;
+        types {
+            application/manifest+json webmanifest;
+        }
+
+        # Define the upstream gunicorn server
+        upstream gunicorn {
+            server 127.0.0.1:8002;
+        }
+
+        server {
+            listen 8000;
+            location ^~ /api/eda/static/ {
+                alias /var/lib/eda/static/;
+                access_log /var/log/nginx/static_access.log;
+                error_log /var/log/nginx/static_error.log;
+            }
+            location ~ ^/api/eda {
+                proxy_pass http://gunicorn;  # Forward requests to Django app
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Forwarded-Host $host;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header X-Forwarded-Port $server_port;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            }
+            location / {
+                root /var/lib/eda/static;
+                try_files /index.html =404;
+                access_log /var/log/nginx/proxy_access.log;
+                error_log /var/log/nginx/proxy_error.log;
+            }
+        }
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","data":{"nginx_api_default_conf_template":"events
+      {\n    worker_connections 1024;\n}\nhttp {\n    map $http_x_forwarded_proto
+      $remote_scheme {\n        default $http_x_forwarded_proto;\n        ''''      $scheme;\n    }\n\n    include
+      mime.types;\n    types {\n        application/manifest+json webmanifest;\n    }\n\n    #
+      Define the upstream gunicorn server\n    upstream gunicorn {\n        server
+      127.0.0.1:8002;\n    }\n\n    server {\n        listen 8000;\n        location
+      ^~ /api/eda/static/ {\n            alias /var/lib/eda/static/;\n            access_log
+      /var/log/nginx/static_access.log;\n            error_log /var/log/nginx/static_error.log;\n        }\n        location
+      ~ ^/api/eda {\n            proxy_pass http://gunicorn;  # Forward requests to
+      Django app\n            proxy_set_header Host $http_host;\n            proxy_set_header
+      X-Forwarded-Host $host;\n            proxy_set_header X-Forwarded-Proto $scheme;\n            proxy_set_header
+      X-Forwarded-Port $server_port;\n            proxy_set_header X-Forwarded-For
+      $proxy_add_x_forwarded_for;\n        }\n        location / {\n            root
+      /var/lib/eda/static;\n            try_files /index.html =404;\n            access_log
+      /var/log/nginx/proxy_access.log;\n            error_log /var/log/nginx/proxy_error.log;\n        }\n    }\n}\n"},"kind":"ConfigMap","metadata":{"name":"eda-demo-nginx-api-configmap","namespace":"eda"}}'
+  creationTimestamp: "2025-03-14T23:18:32Z"
+  name: eda-demo-nginx-api-configmap
+  namespace: eda
+  ownerReferences:
+  - apiVersion: eda.ansible.com/v1alpha1
+    kind: EDA
+    name: eda-demo
+    uid: 4045fc6e-a4d5-4fda-8fd5-ebb49c8995e1
+  resourceVersion: "383456"
+  uid: 7a3f9152-63b5-40b2-8487-4abdc315f8ed

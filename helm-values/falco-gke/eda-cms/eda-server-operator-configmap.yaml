@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    control-plane.alpha.kubernetes.io/leader: '{"holderIdentity":"eda-server-operator-controller-manager-66dcc4dfd9-89ckm_61dc69f1-b204-4ed4-bc35-53790f0bd733","leaseDurationSeconds":15,"acquireTime":"2025-03-26T11:06:51Z","renewTime":"2025-03-26T13:33:54Z","leaderTransitions":19}'
+  creationTimestamp: "2025-03-14T20:45:58Z"
+  name: eda-server-operator
+  namespace: eda
+  resourceVersion: "13331206"
+  uid: 8127a822-7341-49e7-8303-6c5390fb157b
